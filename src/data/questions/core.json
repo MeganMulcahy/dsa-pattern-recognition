@@ -1,0 +1,522 @@
+[
+  {
+    "id": "two-sum",
+    "title": "Two Sum",
+    "description": "Given an array of integers and a target, return the indices of two numbers that add up to the target. Each input has exactly one solution and you may not use the same element twice.",
+    "difficulty": "easy",
+    "correctPattern": "hash-map",
+    "hints": [
+      "You need O(1) lookup for complements.",
+      "As you scan, store what you've seen so far."
+    ],
+    "solution": {
+      "approach": [
+        "Create a hash map from value → index.",
+        "For each number, check if (target - number) exists in the map.",
+        "If found, return both indices. Otherwise, add the current number to the map."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Instead of checking every pair (O(n²)), store seen values in a hash map so complement lookup is O(1)."
+    },
+    "tags": [
+      "array",
+      "classic"
+    ]
+  },
+  {
+    "id": "valid-palindrome",
+    "title": "Valid Palindrome",
+    "description": "Given a string, determine if it reads the same forward and backward after considering only alphanumeric characters and ignoring case.",
+    "difficulty": "easy",
+    "correctPattern": "two-pointers",
+    "hints": [
+      "Compare characters from both ends.",
+      "Skip non-alphanumeric characters as you go."
+    ],
+    "solution": {
+      "approach": [
+        "Place left pointer at start and right pointer at end.",
+        "Skip non-alphanumeric chars on either side.",
+        "Compare lowercase versions; move inward on match, return false on mismatch.",
+        "Continue until pointers cross."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "Two pointers converging from both ends let you verify symmetry in a single pass without extra space."
+    },
+    "tags": [
+      "string",
+      "classic"
+    ]
+  },
+  {
+    "id": "longest-substring-without-repeating",
+    "title": "Longest Substring Without Repeating Characters",
+    "description": "Given a string, find the length of the longest substring that contains no repeating characters.",
+    "difficulty": "medium",
+    "correctPattern": "sliding-window",
+    "hints": [
+      "Expand a window and track characters inside it.",
+      "When you see a duplicate, shrink from the left."
+    ],
+    "solution": {
+      "approach": [
+        "Use a hash set (or map of last index) to track characters in the current window.",
+        "Expand right pointer; if char is duplicate, shrink left until it's unique again.",
+        "Track the maximum window size seen."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(min(n, alphabet))",
+      "keyInsight": "A sliding window maintains the valid substring invariant — expand to grow, shrink to fix violations."
+    },
+    "tags": [
+      "string",
+      "classic"
+    ]
+  },
+  {
+    "id": "search-rotated-sorted-array",
+    "title": "Search in Rotated Sorted Array",
+    "description": "A sorted array has been rotated at an unknown pivot. Given a target, return its index or -1 if not found. Assume no duplicates.",
+    "difficulty": "medium",
+    "correctPattern": "binary-search",
+    "hints": [
+      "One half of the array is always sorted.",
+      "Decide which half to search based on where the target could lie."
+    ],
+    "solution": {
+      "approach": [
+        "Binary search with left and right pointers.",
+        "Identify which half is sorted (compare mid with left).",
+        "Check if target falls in the sorted half; adjust search range accordingly.",
+        "Repeat until found or range is empty."
+      ],
+      "timeComplexity": "O(log n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "Even after rotation, binary search works because at least one half remains sorted, letting you eliminate half each step."
+    },
+    "tags": [
+      "array",
+      "classic"
+    ]
+  },
+  {
+    "id": "number-of-islands",
+    "title": "Number of Islands",
+    "description": "Given a 2D grid of '1's (land) and '0's (water), count the number of islands. An island is surrounded by water and formed by connecting adjacent lands horizontally or vertically.",
+    "difficulty": "medium",
+    "correctPattern": "dfs",
+    "acceptedPatterns": [
+      "bfs"
+    ],
+    "hints": [
+      "Each unvisited '1' starts a new island.",
+      "You need to mark all connected land cells as visited."
+    ],
+    "solution": {
+      "approach": [
+        "Iterate through every cell in the grid.",
+        "When you find a '1', increment island count and run DFS/BFS to sink the entire island (mark visited).",
+        "DFS explores all 4 adjacent directions recursively."
+      ],
+      "timeComplexity": "O(m × n)",
+      "spaceComplexity": "O(m × n) worst case for recursion stack",
+      "keyInsight": "DFS (or BFS) flood-fills each connected component. The number of flood-fills equals the number of islands."
+    },
+    "tags": [
+      "grid",
+      "graph",
+      "classic"
+    ]
+  },
+  {
+    "id": "rotting-oranges",
+    "title": "Rotting Oranges",
+    "description": "In a grid, each cell is empty, a fresh orange, or a rotten orange. Every minute, rotten oranges rot adjacent fresh ones (4-directionally). Return the minimum minutes until no fresh orange remains, or -1 if impossible.",
+    "difficulty": "medium",
+    "correctPattern": "bfs",
+    "hints": [
+      "Rotting spreads simultaneously from all rotten oranges.",
+      "Track time level by level."
+    ],
+    "solution": {
+      "approach": [
+        "Enqueue all initially rotten oranges with time 0.",
+        "BFS: for each rotten orange, rot adjacent fresh ones and enqueue them with time+1.",
+        "Track fresh count; decrement when rotting.",
+        "Return max time if fresh count is 0, else -1."
+      ],
+      "timeComplexity": "O(m × n)",
+      "spaceComplexity": "O(m × n)",
+      "keyInsight": "BFS naturally processes simultaneous spread level by level, giving the minimum time for multi-source propagation."
+    },
+    "tags": [
+      "grid",
+      "classic"
+    ]
+  },
+  {
+    "id": "climbing-stairs",
+    "title": "Climbing Stairs",
+    "description": "You can climb 1 or 2 steps at a time. Given n steps, how many distinct ways can you reach the top?",
+    "difficulty": "easy",
+    "correctPattern": "dynamic-programming",
+    "hints": [
+      "Ways to reach step n = ways to reach (n-1) + ways to reach (n-2).",
+      "This looks like Fibonacci."
+    ],
+    "solution": {
+      "approach": [
+        "Define dp[i] = number of ways to reach step i.",
+        "Base: dp[1] = 1, dp[2] = 2.",
+        "Recurrence: dp[i] = dp[i-1] + dp[i-2].",
+        "Optimize to O(1) space by tracking only the last two values."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "Optimal substructure: every way to reach step n ends with either a 1-step or 2-step, so sum the two subproblems."
+    },
+    "tags": [
+      "classic",
+      "math"
+    ]
+  },
+  {
+    "id": "coin-change",
+    "title": "Coin Change",
+    "description": "Given coin denominations and an amount, return the fewest number of coins needed to make that amount. Return -1 if impossible.",
+    "difficulty": "medium",
+    "correctPattern": "dynamic-programming",
+    "hints": [
+      "For each amount, try every coin and take the minimum.",
+      "Build up from smaller amounts to the target."
+    ],
+    "solution": {
+      "approach": [
+        "dp[a] = min coins to make amount a. Initialize dp[0]=0, rest=∞.",
+        "For each amount from 1 to target, try each coin: dp[a] = min(dp[a], dp[a-coin]+1).",
+        "Return dp[amount] if finite, else -1."
+      ],
+      "timeComplexity": "O(amount × coins)",
+      "spaceComplexity": "O(amount)",
+      "keyInsight": "Unbounded knapsack style DP: the optimal solution for amount a uses one coin plus the optimal solution for a - coin."
+    },
+    "tags": [
+      "classic"
+    ]
+  },
+  {
+    "id": "jump-game",
+    "title": "Jump Game",
+    "description": "Given an array where nums[i] is the max jump length from position i, determine if you can reach the last index starting from index 0.",
+    "difficulty": "medium",
+    "correctPattern": "greedy",
+    "hints": [
+      "Track the farthest index you can reach.",
+      "If current index exceeds farthest reachable, you're stuck."
+    ],
+    "solution": {
+      "approach": [
+        "Maintain farthest reachable index, initially 0.",
+        "At each position i, if i > farthest, return false.",
+        "Update farthest = max(farthest, i + nums[i]).",
+        "If farthest >= last index, return true."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "Greedy works: you only care about the maximum reachable position, not the specific path taken."
+    },
+    "tags": [
+      "array",
+      "classic"
+    ]
+  },
+  {
+    "id": "valid-parentheses",
+    "title": "Valid Parentheses",
+    "description": "Given a string containing only \"(\", \")\", \"{\", \"}\", \"[\", and \"]\", determine if the input string is valid. Open brackets must close in the correct order.",
+    "difficulty": "easy",
+    "correctPattern": "stack",
+    "hints": [
+      "Most recent unmatched open bracket must match the next close.",
+      "LIFO order suggests a stack."
+    ],
+    "solution": {
+      "approach": [
+        "Push opening brackets onto a stack.",
+        "On closing bracket, check if stack top is the matching opener; pop if so, else invalid.",
+        "After scanning, stack must be empty."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Nested brackets require LIFO matching — the exact behavior of a stack."
+    },
+    "tags": [
+      "string",
+      "classic"
+    ]
+  },
+  {
+    "id": "kth-largest-element",
+    "title": "Kth Largest Element in an Array",
+    "description": "Given an integer array and k, return the kth largest element. Note that it is the kth largest in sorted order, not the kth distinct.",
+    "difficulty": "medium",
+    "correctPattern": "heap",
+    "hints": [
+      "You don't need full sort — just track the k largest.",
+      "A min-heap of size k keeps the kth largest at the top."
+    ],
+    "solution": {
+      "approach": [
+        "Maintain a min-heap of size k.",
+        "For each element, add to heap; if size > k, pop the smallest.",
+        "After processing all elements, heap top is the kth largest."
+      ],
+      "timeComplexity": "O(n log k)",
+      "spaceComplexity": "O(k)",
+      "keyInsight": "A size-k min-heap acts as a sliding window of the k largest elements seen so far."
+    },
+    "tags": [
+      "array",
+      "classic"
+    ]
+  },
+  {
+    "id": "number-of-provinces",
+    "title": "Number of Provinces",
+    "description": "There are n cities. A matrix shows direct connections between cities. Cities are in the same province if directly or indirectly connected. Return the total number of provinces.",
+    "difficulty": "medium",
+    "correctPattern": "union-find",
+    "acceptedPatterns": [
+      "dfs"
+    ],
+    "hints": [
+      "Transitive connections form groups.",
+      "Merge connected cities and count distinct groups."
+    ],
+    "solution": {
+      "approach": [
+        "Initialize Union-Find with n components.",
+        "For each connected pair (i, j) in the matrix, union(i, j).",
+        "Return the number of distinct roots (provinces)."
+      ],
+      "timeComplexity": "O(n² × α(n))",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Union-Find efficiently merges connected components and counts remaining groups after processing all edges."
+    },
+    "tags": [
+      "graph",
+      "classic"
+    ]
+  },
+  {
+    "id": "course-schedule",
+    "title": "Course Schedule",
+    "description": "There are numCourses courses labeled 0 to n-1. Prerequisites are given as pairs [a, b] meaning you must take b before a. Return true if you can finish all courses.",
+    "difficulty": "medium",
+    "correctPattern": "topological-sort",
+    "acceptedPatterns": [
+      "dfs"
+    ],
+    "hints": [
+      "This is about detecting cycles in a dependency graph.",
+      "Process courses with no remaining prerequisites first."
+    ],
+    "solution": {
+      "approach": [
+        "Build adjacency list and in-degree count for each course.",
+        "Enqueue all courses with in-degree 0.",
+        "BFS (Kahn's algorithm): dequeue a course, reduce in-degree of neighbors, enqueue new zeros.",
+        "If processed count equals numCourses, no cycle exists."
+      ],
+      "timeComplexity": "O(V + E)",
+      "spaceComplexity": "O(V + E)",
+      "keyInsight": "Topological sort detects cycles in a DAG — if you can't process all nodes, a circular dependency exists."
+    },
+    "tags": [
+      "graph",
+      "classic"
+    ]
+  },
+  {
+    "id": "implement-trie",
+    "title": "Implement Trie (Prefix Tree)",
+    "description": "Design a data structure that supports inserting words, searching for exact words, and checking if any word starts with a given prefix.",
+    "difficulty": "medium",
+    "correctPattern": "trie",
+    "hints": [
+      "Characters form a tree path from root to leaf.",
+      "Each node represents a character prefix."
+    ],
+    "solution": {
+      "approach": [
+        "Each TrieNode has children map and an isEnd flag.",
+        "Insert: walk/create nodes for each character, mark isEnd at the last char.",
+        "Search: follow children; return isEnd for exact match.",
+        "StartsWith: follow children; return true if path exists."
+      ],
+      "timeComplexity": "O(m) per operation, m = word length",
+      "spaceComplexity": "O(total characters stored)",
+      "keyInsight": "A trie shares common prefixes across words, making prefix queries natural and efficient."
+    },
+    "tags": [
+      "design",
+      "classic"
+    ]
+  },
+  {
+    "id": "subsets",
+    "title": "Subsets",
+    "description": "Given an array of unique integers, return all possible subsets (the power set). The solution set must not contain duplicate subsets.",
+    "difficulty": "medium",
+    "correctPattern": "backtracking",
+    "hints": [
+      "For each element, choose to include it or not.",
+      "Build candidates incrementally and backtrack."
+    ],
+    "solution": {
+      "approach": [
+        "Sort the array (optional, for consistency).",
+        "Use backtracking: at each index, choose to include or exclude the element.",
+        "When index reaches end, add current subset to results.",
+        "Backtrack by removing the last choice."
+      ],
+      "timeComplexity": "O(n × 2^n)",
+      "spaceComplexity": "O(n) recursion depth",
+      "keyInsight": "Backtracking explores the binary decision tree of include/exclude for each element, generating all 2^n subsets."
+    },
+    "tags": [
+      "classic"
+    ]
+  },
+  {
+    "id": "daily-temperatures",
+    "title": "Daily Temperatures",
+    "description": "Given an array of daily temperatures, return an array where answer[i] is the number of days you have to wait after day i for a warmer temperature. If no future day is warmer, answer[i] = 0.",
+    "difficulty": "medium",
+    "correctPattern": "monotonic-stack",
+    "hints": [
+      "For each day, you need the next greater element to the right.",
+      "A decreasing stack of indices tracks unresolved days."
+    ],
+    "solution": {
+      "approach": [
+        "Iterate with a monotonic decreasing stack of indices.",
+        "While current temp > temp at stack top, pop and set answer[popped] = i - popped.",
+        "Push current index onto stack."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "A monotonic stack efficiently finds the next greater element by discarding indices that can't be answers for future days."
+    },
+    "tags": [
+      "array",
+      "classic"
+    ]
+  },
+  {
+    "id": "subarray-sum-equals-k",
+    "title": "Subarray Sum Equals K",
+    "description": "Given an array of integers and an integer k, return the total number of continuous subarrays whose sum equals k.",
+    "difficulty": "medium",
+    "correctPattern": "prefix-sum",
+    "acceptedPatterns": [
+      "hash-map"
+    ],
+    "hints": [
+      "If prefix[j] - prefix[i] = k, subarray (i, j] sums to k.",
+      "Track prefix sums and how often each has been seen."
+    ],
+    "solution": {
+      "approach": [
+        "Maintain a running prefix sum and a map of prefix sum → count.",
+        "For each prefix sum, add map[prefix - k] to the answer (those are valid starting points).",
+        "Increment the count for the current prefix sum."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Prefix sums convert the subarray sum problem into a complement lookup: if prefix[j] - k existed before, that's a valid subarray ending at j."
+    },
+    "tags": [
+      "array",
+      "classic"
+    ]
+  },
+  {
+    "id": "container-with-most-water",
+    "title": "Container With Most Water",
+    "description": "Given n non-negative integers representing vertical lines, find two lines that together with the x-axis form a container that holds the most water.",
+    "difficulty": "medium",
+    "correctPattern": "two-pointers",
+    "hints": [
+      "Start with the widest container (outer pointers).",
+      "Move the pointer at the shorter line inward — that's the only way to potentially improve."
+    ],
+    "solution": {
+      "approach": [
+        "Set left = 0, right = n-1.",
+        "Compute area = min(height[l], height[r]) × (r - l), track max.",
+        "Move the pointer at the shorter height inward.",
+        "Repeat until pointers meet."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "Greedy two-pointer: shrinking from the shorter side is safe because keeping it can't increase the limiting height while reducing width."
+    },
+    "tags": [
+      "array",
+      "classic"
+    ]
+  },
+  {
+    "id": "merge-intervals",
+    "title": "Merge Intervals",
+    "description": "Given an array of intervals where intervals[i] = [start, end], merge all overlapping intervals and return the result.",
+    "difficulty": "medium",
+    "correctPattern": "greedy",
+    "hints": [
+      "Sort intervals by start time.",
+      "Compare each interval with the last merged one."
+    ],
+    "solution": {
+      "approach": [
+        "Sort intervals by start time.",
+        "Initialize result with the first interval.",
+        "For each next interval: if it overlaps the last merged (start ≤ last end), extend last end; else append."
+      ],
+      "timeComplexity": "O(n log n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "After sorting by start, overlapping intervals are adjacent — a single pass merge suffices."
+    },
+    "tags": [
+      "interval",
+      "classic"
+    ]
+  },
+  {
+    "id": "max-consecutive-ones-iii",
+    "title": "Max Consecutive Ones III",
+    "description": "Given a binary array and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's to 1's.",
+    "difficulty": "medium",
+    "correctPattern": "sliding-window",
+    "hints": [
+      "Find the longest window with at most k zeros.",
+      "Shrink when zeros in window exceed k."
+    ],
+    "solution": {
+      "approach": [
+        "Sliding window with left/right pointers and a zero count.",
+        "Expand right; when zeros > k, shrink left until zeros ≤ k.",
+        "Track max window size."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "The problem becomes: find the longest subarray containing at most k zeros — a classic variable sliding window."
+    },
+    "tags": [
+      "array",
+      "classic"
+    ]
+  }
+]

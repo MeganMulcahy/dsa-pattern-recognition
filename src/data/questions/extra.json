@@ -1,0 +1,958 @@
+[
+  {
+    "id": "3sum",
+    "title": "3Sum",
+    "description": "Given an integer array nums, return all unique triplets [nums[i], nums[j], nums[k]] such that i != j, i != k, and j != k, and nums[i] + nums[j] + nums[k] == 0. The solution set must not contain duplicate triplets.",
+    "difficulty": "medium",
+    "correctPattern": "two-pointers",
+    "hints": [
+      "Sorting the array first makes it easier to skip duplicates and fix one element.",
+      "After fixing one index, look for pairs that complete the target sum."
+    ],
+    "solution": {
+      "approach": [
+        "Sort the array ascending.",
+        "For each index i, skip duplicate values of nums[i].",
+        "Use left and right pointers on the subarray after i to find pairs summing to -nums[i].",
+        "When a triplet is found, record it and advance pointers past duplicate values.",
+        "Stop the outer loop when i reaches n - 3."
+      ],
+      "timeComplexity": "O(n²)",
+      "spaceComplexity": "O(1) excluding output",
+      "keyInsight": "Sort once, then each fixed element reduces the problem to the classic two-sum-on-sorted-array with converging pointers."
+    },
+    "tags": ["array", "classic"]
+  },
+  {
+    "id": "remove-duplicates-sorted-array",
+    "title": "Remove Duplicates from Sorted Array",
+    "description": "Given a sorted array nums in non-decreasing order, remove duplicates in-place so each unique element appears only once. Return k, the number of unique elements, with the first k slots of nums holding those values in order.",
+    "difficulty": "easy",
+    "correctPattern": "two-pointers",
+    "hints": [
+      "One pointer tracks where the next unique value should be written.",
+      "Because the input is sorted, duplicates appear consecutively."
+    ],
+    "solution": {
+      "approach": [
+        "If the array is empty, return 0.",
+        "Keep a write pointer at index 1 and a read pointer scanning from index 1.",
+        "When nums[read] differs from nums[write - 1], copy it to nums[write] and increment write.",
+        "Return write as the count of unique elements."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "A slow write pointer compacts unique values in one pass while a fast read pointer scans the sorted array."
+    },
+    "tags": ["array", "in-place"]
+  },
+  {
+    "id": "trapping-rain-water",
+    "title": "Trapping Rain Water",
+    "description": "Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water can be trapped after raining. Adjacent bars may form valleys that hold water.",
+    "difficulty": "hard",
+    "correctPattern": "two-pointers",
+    "acceptedPatterns": ["monotonic-stack"],
+    "hints": [
+      "Water above a position depends on the shorter of the tallest bars on its left and right.",
+      "You can track the best left and right boundaries while moving inward."
+    ],
+    "solution": {
+      "approach": [
+        "Initialize left at 0, right at n - 1, and track maxLeft and maxRight.",
+        "Move the pointer at the smaller max boundary inward.",
+        "If the current height is below that boundary, add the difference to the answer.",
+        "Otherwise update the corresponding max boundary.",
+        "Repeat until the pointers meet."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "At each step, the shorter side is the limiting wall, so trapped water at that index is determined immediately."
+    },
+    "tags": ["array", "classic"]
+  },
+  {
+    "id": "minimum-window-substring",
+    "title": "Minimum Window Substring",
+    "description": "Given strings s and t, return the shortest substring of s that contains all characters of t, including multiplicity. If no such window exists, return an empty string.",
+    "difficulty": "hard",
+    "correctPattern": "sliding-window",
+    "hints": [
+      "Track how many required characters are still missing from the current window.",
+      "Expand until the window is valid, then shrink from the left to minimize length."
+    ],
+    "solution": {
+      "approach": [
+        "Count character frequencies needed from t.",
+        "Expand the right end of a window over s, decrementing missing counts when required chars appear.",
+        "When the window is valid, update the best answer and shrink from the left.",
+        "While shrinking, restore counts for characters leaving the window.",
+        "Return the shortest valid window found."
+      ],
+      "timeComplexity": "O(|s| + |t|)",
+      "spaceComplexity": "O(|alphabet|)",
+      "keyInsight": "A variable-size window stays valid only while all required counts are satisfied; shrink only after each valid state."
+    },
+    "tags": ["string", "classic"]
+  },
+  {
+    "id": "longest-repeating-character-replacement",
+    "title": "Longest Repeating Character Replacement",
+    "description": "Given a string s and an integer k, you may change at most k characters to any uppercase English letter. Return the length of the longest substring containing the same letter you can obtain.",
+    "difficulty": "medium",
+    "correctPattern": "sliding-window",
+    "hints": [
+      "In a valid window, length minus the count of the most frequent character is the number of replacements needed.",
+      "Shrink the window when replacements would exceed k."
+    ],
+    "solution": {
+      "approach": [
+        "Maintain counts of characters in the current window.",
+        "Track the frequency of the dominant character in that window.",
+        "Expand right and update counts and max frequency.",
+        "If window length minus max frequency exceeds k, shrink from the left.",
+        "Record the maximum valid window size."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "Only the majority character matters; all other positions in the window are candidates for replacement."
+    },
+    "tags": ["string", "window"]
+  },
+  {
+    "id": "permutation-in-string",
+    "title": "Permutation in String",
+    "description": "Given two strings s1 and s2, return true if s2 contains a permutation of s1. In other words, some contiguous substring of s2 must be an anagram of s1.",
+    "difficulty": "medium",
+    "correctPattern": "sliding-window",
+    "hints": [
+      "A permutation has the same character counts as s1.",
+      "Slide a window of length |s1| across s2 and compare counts."
+    ],
+    "solution": {
+      "approach": [
+        "If s1 is longer than s2, return false.",
+        "Build the frequency map for s1 and for the first window of s2.",
+        "Compare the maps; if equal, return true.",
+        "Slide the window one character at a time, updating counts.",
+        "Return true on the first matching window, otherwise false."
+      ],
+      "timeComplexity": "O(|s1| + |s2|)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "Fixed-size sliding windows turn anagram detection into incremental count updates instead of resorting each substring."
+    },
+    "tags": ["string", "anagram"]
+  },
+  {
+    "id": "find-minimum-rotated-sorted-array",
+    "title": "Find Minimum in Rotated Sorted Array",
+    "description": "Given a sorted array that has been rotated between 1 and n times, find the minimum element. The array has no duplicates and was originally sorted in ascending order.",
+    "difficulty": "medium",
+    "correctPattern": "binary-search",
+    "hints": [
+      "One half of the array is always sorted.",
+      "Compare the middle element with the right end to decide which half contains the pivot."
+    ],
+    "solution": {
+      "approach": [
+        "Initialize left = 0 and right = n - 1.",
+        "While left < right, set mid = left + (right - left) / 2.",
+        "If nums[mid] > nums[right], the minimum is in the right half: left = mid + 1.",
+        "Otherwise the minimum is in the left half including mid: right = mid.",
+        "Return nums[left] when the loop ends."
+      ],
+      "timeComplexity": "O(log n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "The rotation creates a valley; comparing mid with right tells you which side still contains the unsorted pivot region."
+    },
+    "tags": ["array", "classic"]
+  },
+  {
+    "id": "koko-eating-bananas",
+    "title": "Koko Eating Bananas",
+    "description": "Koko loves bananas. There are n piles where pile i has piles[i] bananas, and the guard returns in h hours. Each hour Koko picks a pile and eats k bananas from it. Find the minimum integer k such that she can finish all piles within h hours.",
+    "difficulty": "medium",
+    "correctPattern": "binary-search",
+    "hints": [
+      "If speed k works, any larger k also works.",
+      "Binary search on the answer between 1 and the largest pile size."
+    ],
+    "solution": {
+      "approach": [
+        "Set low = 1 and high = max(piles).",
+        "While low < high, choose mid and compute total hours at that eating speed.",
+        "If hours <= h, try a slower speed: high = mid; otherwise low = mid + 1.",
+        "Return low as the minimum feasible speed."
+      ],
+      "timeComplexity": "O(n log m) where m is max pile",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "Feasibility is monotonic in k, so binary search the minimum speed instead of trying every value."
+    },
+    "tags": ["array", "binary-search-on-answer"]
+  },
+  {
+    "id": "word-ladder",
+    "title": "Word Ladder",
+    "description": "Given two words beginWord and endWord and a word list, find the length of the shortest transformation sequence from beginWord to endWord. Each step must change exactly one letter and every intermediate word must be in the list.",
+    "difficulty": "hard",
+    "correctPattern": "bfs",
+    "hints": [
+      "Treat each word as a node and edges as one-letter transformations.",
+      "The shortest path in an unweighted graph is found layer by layer."
+    ],
+    "solution": {
+      "approach": [
+        "Put beginWord in a set of valid words.",
+        "Use a queue starting with beginWord at distance 1.",
+        "For each dequeued word, try changing each character to every letter a-z.",
+        "If the new word is in the set, enqueue it and remove it from the set to avoid revisits.",
+        "Return the distance when endWord is reached, or 0 if impossible."
+      ],
+      "timeComplexity": "O(n * m * 26) where m is word length",
+      "spaceComplexity": "O(n * m)",
+      "keyInsight": "BFS explores words in order of transformation length, guaranteeing the first time you reach endWord is the shortest ladder."
+    },
+    "tags": ["graph", "string", "classic"]
+  },
+  {
+    "id": "binary-tree-level-order-traversal",
+    "title": "Binary Tree Level Order Traversal",
+    "description": "Given the root of a binary tree, return the level order traversal of its nodes' values from left to right, level by level. Each inner list represents one level of the tree.",
+    "difficulty": "medium",
+    "correctPattern": "bfs",
+    "hints": [
+      "Process nodes in the order they are discovered.",
+      "Track how many nodes belong to the current level before moving to the next."
+    ],
+    "solution": {
+      "approach": [
+        "If root is null, return an empty list.",
+        "Initialize a queue with the root.",
+        "While the queue is not empty, snapshot its size as the current level count.",
+        "Dequeue that many nodes, collect their values, and enqueue their children.",
+        "Append each level's values to the result."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Queue FIFO ordering naturally groups nodes by depth when you process exactly one level per iteration."
+    },
+    "tags": ["tree", "classic"]
+  },
+  {
+    "id": "shortest-path-binary-matrix",
+    "title": "Shortest Path in Binary Matrix",
+    "description": "Given an n x n binary matrix grid, return the length of the shortest clear path from the top-left corner to the bottom-right corner. A clear path visits only 0 cells and may move in any of the 8 directions.",
+    "difficulty": "medium",
+    "correctPattern": "bfs",
+    "hints": [
+      "Each step has equal cost, so expand outward from the start.",
+      "Mark cells visited when enqueued to avoid revisiting."
+    ],
+    "solution": {
+      "approach": [
+        "If start or end is blocked, return -1.",
+        "BFS from (0, 0) with distance 1, using a queue.",
+        "Try all 8 neighbors for each cell; skip walls and visited cells.",
+        "When (n - 1, n - 1) is reached, return its distance.",
+        "Return -1 if the queue empties without reaching the goal."
+      ],
+      "timeComplexity": "O(n²)",
+      "spaceComplexity": "O(n²)",
+      "keyInsight": "On a grid with uniform step cost, BFS visits cells in nondecreasing path length, so the first arrival at the target is optimal."
+    },
+    "tags": ["grid", "graph"]
+  },
+  {
+    "id": "word-search",
+    "title": "Word Search",
+    "description": "Given an m x n board of characters and a string word, return true if word exists in the grid. The word must be constructed from sequentially adjacent cells, and the same cell may not be used more than once per path.",
+    "difficulty": "medium",
+    "correctPattern": "dfs",
+    "hints": [
+      "Try starting the path from every cell that matches the first letter.",
+      "Temporarily mark visited cells so they cannot be reused in the same path."
+    ],
+    "solution": {
+      "approach": [
+        "Define DFS from (r, c) matching index i in word.",
+        "If i == word.length, return true.",
+        "Check bounds, character match, and whether the cell is already used.",
+        "Mark the cell visited, explore four neighbors, then unmark on backtrack.",
+        "Run DFS from each board position matching word[0]."
+      ],
+      "timeComplexity": "O(m * n * 4^L) where L is word length",
+      "spaceComplexity": "O(L)",
+      "keyInsight": "DFS with backtracking explores one path deeply, undoing choices when they fail so other routes can reuse cells later."
+    },
+    "tags": ["grid", "backtracking", "classic"]
+  },
+  {
+    "id": "max-area-of-island",
+    "title": "Max Area of Island",
+    "description": "Given an m x n binary matrix grid, return the area of the largest island. An island is a group of 1s connected 4-directionally, and the area is the number of cells in the group.",
+    "difficulty": "medium",
+    "correctPattern": "dfs",
+    "hints": [
+      "Each unvisited land cell may belong to a new island.",
+      "Explore all reachable land from a starting cell to measure its size."
+    ],
+    "solution": {
+      "approach": [
+        "Scan every cell in the grid.",
+        "When a 1 is found, run DFS or BFS to count connected land cells.",
+        "Mark visited cells by setting them to 0 or using a visited set.",
+        "Track the maximum area seen across all components.",
+        "Return the maximum area, or 0 if there is no land."
+      ],
+      "timeComplexity": "O(m * n)",
+      "spaceComplexity": "O(m * n)",
+      "keyInsight": "DFS flood fill measures one connected component at a time, turning the grid into a collection of explorable regions."
+    },
+    "tags": ["grid", "classic"]
+  },
+  {
+    "id": "path-sum",
+    "title": "Path Sum",
+    "description": "Given the root of a binary tree and an integer targetSum, return true if the tree has a root-to-leaf path such that the sum of node values along the path equals targetSum. A leaf has no children.",
+    "difficulty": "easy",
+    "correctPattern": "dfs",
+    "hints": [
+      "Subtract the current node's value from the remaining target as you go deeper.",
+      "A valid path must end on a leaf, not an internal node."
+    ],
+    "solution": {
+      "approach": [
+        "If root is null, return false.",
+        "If root is a leaf, return root.val == targetSum.",
+        "Let remaining = targetSum - root.val.",
+        "Recursively check left and right subtrees with remaining.",
+        "Return true if either subtree has a valid path."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(h)",
+      "keyInsight": "DFS carries the remaining sum downward and only succeeds at leaves, naturally enforcing root-to-leaf paths."
+    },
+    "tags": ["tree", "classic"]
+  },
+  {
+    "id": "house-robber",
+    "title": "House Robber",
+    "description": "You are a robber planning to rob houses along a street. Each house has a non-negative amount of money, and adjacent houses have security systems that will alert the police if two neighboring houses are robbed on the same night. Return the maximum amount you can rob without triggering an alarm.",
+    "difficulty": "medium",
+    "correctPattern": "dynamic-programming",
+    "hints": [
+      "At each house you either take it plus the best from two houses back, or skip it.",
+      "You only need the best results from the previous two positions."
+    ],
+    "solution": {
+      "approach": [
+        "Track robPrev as max money up to the previous house and robPrevPrev before that.",
+        "For each house value v, compute take = robPrevPrev + v and skip = robPrev.",
+        "Update robPrevPrev = robPrev and robPrev = max(take, skip).",
+        "After processing all houses, return robPrev."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "The optimal choice at house i depends only on the best totals at i - 1 and i - 2, giving a linear recurrence."
+    },
+    "tags": ["array", "classic"]
+  },
+  {
+    "id": "longest-increasing-subsequence",
+    "title": "Longest Increasing Subsequence",
+    "description": "Given an integer array nums, return the length of the longest strictly increasing subsequence. A subsequence is obtained by deleting some elements without changing the order of the remaining elements.",
+    "difficulty": "medium",
+    "correctPattern": "dynamic-programming",
+    "hints": [
+      "For each position, the best length ending there depends on earlier smaller values.",
+      "Patience sorting with a tails array can improve the time complexity."
+    ],
+    "solution": {
+      "approach": [
+        "Let dp[i] be the LIS length ending at index i, initialized to 1.",
+        "For each i, check all j < i with nums[j] < nums[i] and set dp[i] = max(dp[i], dp[j] + 1).",
+        "Return the maximum value in dp.",
+        "Alternatively maintain tails where tails[k] is the smallest ending value of an increasing subsequence of length k + 1.",
+        "Use binary search on tails to place each number."
+      ],
+      "timeComplexity": "O(n²) DP or O(n log n) with tails",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Optimal subsequences compose from optimal shorter ones ending at smaller predecessors."
+    },
+    "tags": ["array", "classic"]
+  },
+  {
+    "id": "unique-paths",
+    "title": "Unique Paths",
+    "description": "A robot is on an m x n grid at the top-left corner and wants to reach the bottom-right corner. It can only move down or right at any step. Return the number of distinct paths to the destination.",
+    "difficulty": "medium",
+    "correctPattern": "dynamic-programming",
+    "hints": [
+      "Paths into a cell come only from the cell above or the cell to the left.",
+      "The first row and column each have only one path."
+    ],
+    "solution": {
+      "approach": [
+        "Create a dp table of size m x n.",
+        "Initialize first row and first column to 1.",
+        "For each cell (i, j), set dp[i][j] = dp[i - 1][j] + dp[i][j - 1].",
+        "Return dp[m - 1][n - 1].",
+        "Space can be reduced to one row because only the previous row is needed."
+      ],
+      "timeComplexity": "O(m * n)",
+      "spaceComplexity": "O(n) with rolling array",
+      "keyInsight": "Each cell's path count is the sum of ways to reach its top and left neighbors, building a Pascal-like grid."
+    },
+    "tags": ["grid", "classic"]
+  },
+  {
+    "id": "non-overlapping-intervals",
+    "title": "Non-overlapping Intervals",
+    "description": "Given an array of intervals where intervals[i] = [start_i, end_i], return the minimum number of intervals you must remove to make the rest pairwise non-overlapping.",
+    "difficulty": "medium",
+    "correctPattern": "greedy",
+    "hints": [
+      "Keeping more intervals is easier if you prefer earlier-ending ones.",
+      "Sort intervals by end time before making choices."
+    ],
+    "solution": {
+      "approach": [
+        "Sort intervals by ascending end time.",
+        "Keep the first interval and track its end as lastEnd.",
+        "For each next interval, if it starts before lastEnd, count a removal.",
+        "Otherwise keep it and update lastEnd to its end.",
+        "Return the removal count."
+      ],
+      "timeComplexity": "O(n log n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "Choosing the interval that ends earliest leaves the most room for future non-overlapping intervals."
+    },
+    "tags": ["intervals", "classic"]
+  },
+  {
+    "id": "gas-station",
+    "title": "Gas Station",
+    "description": "There are n gas stations in a circle. gas[i] is fuel available at station i, and cost[i] is fuel needed to reach the next station. You start with an empty tank at one station. Return the starting index if you can complete the circuit once, otherwise return -1.",
+    "difficulty": "medium",
+    "correctPattern": "greedy",
+    "hints": [
+      "If total gas is less than total cost, no solution exists.",
+      "If a partial trip fails, any start inside that failing segment will also fail."
+    ],
+    "solution": {
+      "approach": [
+        "If sum(gas) < sum(cost), return -1.",
+        "Track current tank and a candidate start index.",
+        "Iterate stations; add gas[i] - cost[i] to the tank.",
+        "If tank becomes negative, reset start to i + 1 and tank to 0.",
+        "Return the candidate start after one pass."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "A negative cumulative segment cannot contain a valid start, so you can restart the candidate after any failed prefix."
+    },
+    "tags": ["array", "classic"]
+  },
+  {
+    "id": "partition-labels",
+    "title": "Partition Labels",
+    "description": "Given a string s, partition it into as many parts as possible so that each letter appears in at most one part. Return a list of integers representing the size of each part in order.",
+    "difficulty": "medium",
+    "correctPattern": "greedy",
+    "hints": [
+      "Record the last index where each character appears.",
+      "Extend the current partition until you pass the farthest last occurrence of its letters."
+    ],
+    "solution": {
+      "approach": [
+        "Build a map of each character to its last index in s.",
+        "Track end as the farthest last index seen in the current partition.",
+        "Scan with index i; update end = max(end, last[s[i]]).",
+        "When i == end, close a partition and record its length.",
+        "Continue until the string is fully partitioned."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(1)",
+      "keyInsight": "A partition must extend at least to the last occurrence of every character introduced inside it."
+    },
+    "tags": ["string", "greedy"]
+  },
+  {
+    "id": "group-anagrams",
+    "title": "Group Anagrams",
+    "description": "Given an array of strings strs, group the anagrams together. An anagram is a word formed by rearranging the letters of another, using all original letters exactly once.",
+    "difficulty": "medium",
+    "correctPattern": "hash-map",
+    "hints": [
+      "Anagrams share the same multiset of characters.",
+      "Use a canonical key so words in the same group collide in one bucket."
+    ],
+    "solution": {
+      "approach": [
+        "Create a hash map from key to list of strings.",
+        "For each word, build a key by sorting its letters or counting character frequencies.",
+        "Append the word to the map entry for that key.",
+        "Return all values from the map."
+      ],
+      "timeComplexity": "O(n * k log k) with sorting keys, k = max word length",
+      "spaceComplexity": "O(n * k)",
+      "keyInsight": "Hashing by a canonical anagram signature groups equivalent strings without comparing every pair."
+    },
+    "tags": ["string", "classic"]
+  },
+  {
+    "id": "longest-consecutive-sequence",
+    "title": "Longest Consecutive Sequence",
+    "description": "Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence. The algorithm must run in O(n) time.",
+    "difficulty": "medium",
+    "correctPattern": "hash-map",
+    "hints": [
+      "Only start counting from numbers that have no predecessor in the set.",
+      "Store all numbers in a set for O(1) membership checks."
+    ],
+    "solution": {
+      "approach": [
+        "Insert all numbers into a hash set.",
+        "For each number, if num - 1 is not in the set, start a streak from num.",
+        "While num + length is in the set, increment the streak length.",
+        "Track the maximum streak across all starts.",
+        "Return the maximum length found."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Each number is visited only as part of one streak start, so total work stays linear despite inner while loops."
+    },
+    "tags": ["array", "classic"]
+  },
+  {
+    "id": "contains-duplicate-ii",
+    "title": "Contains Duplicate II",
+    "description": "Given an integer array nums and an integer k, return true if there are two distinct indices i and j such that nums[i] == nums[j] and abs(i - j) <= k.",
+    "difficulty": "easy",
+    "correctPattern": "hash-map",
+    "hints": [
+      "Remember the most recent index where you saw each value.",
+      "A repeated value within k steps means the current index minus the stored index is at most k."
+    ],
+    "solution": {
+      "approach": [
+        "Maintain a map from value to last seen index.",
+        "Scan nums left to right with index i.",
+        "If nums[i] is in the map and i - map[nums[i]] <= k, return true.",
+        "Update map[nums[i]] = i.",
+        "Return false after the scan."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Storing latest indices turns the distance constraint into a constant-time check on each duplicate value."
+    },
+    "tags": ["array", "hash"]
+  },
+  {
+    "id": "min-stack",
+    "title": "Min Stack",
+    "description": "Design a stack that supports push, pop, top, and retrieving the minimum element in constant time. Implement the MinStack class with those operations.",
+    "difficulty": "medium",
+    "correctPattern": "stack",
+    "hints": [
+      "When you push a value, you also need to know the minimum among everything currently below it.",
+      "Store the current minimum together with each pushed value."
+    ],
+    "solution": {
+      "approach": [
+        "Use a main stack of values and a parallel stack of current minima.",
+        "On push(x), also push min(x, current min) onto the min stack.",
+        "On pop, remove from both stacks.",
+        "Top reads the main stack; getMin reads the top of the min stack."
+      ],
+      "timeComplexity": "O(1) per operation",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Each stack entry can remember the best minimum seen up to that depth, avoiding rescans on getMin."
+    },
+    "tags": ["design", "classic"]
+  },
+  {
+    "id": "evaluate-reverse-polish-notation",
+    "title": "Evaluate Reverse Polish Notation",
+    "description": "Given an array of strings tokens representing an arithmetic expression in Reverse Polish Notation, evaluate the expression and return the integer result. Valid operators are +, -, *, and /, and each operand may be an integer.",
+    "difficulty": "medium",
+    "correctPattern": "stack",
+    "hints": [
+      "Operands should wait until enough values are available to apply an operator.",
+      "Process tokens from left to right, pushing numbers and reducing on operators."
+    ],
+    "solution": {
+      "approach": [
+        "Initialize an empty stack.",
+        "For each token, if it is a number, push it.",
+        "If it is an operator, pop two operands and push the result of applying the operator.",
+        "Division truncates toward zero as in integer math.",
+        "At the end, the stack contains the final value."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Postfix notation delays operators until their operands are ready, which stacks model naturally."
+    },
+    "tags": ["stack", "classic"]
+  },
+  {
+    "id": "top-k-frequent-elements",
+    "title": "Top K Frequent Elements",
+    "description": "Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.",
+    "difficulty": "medium",
+    "correctPattern": "heap",
+    "hints": [
+      "First count how often each number appears.",
+      "You only need to keep track of the k largest counts efficiently."
+    ],
+    "solution": {
+      "approach": [
+        "Build a frequency map for nums.",
+        "Use a min-heap of size k keyed by frequency.",
+        "For each unique number, push (freq, num) and pop the smallest if size exceeds k.",
+        "Extract the numbers remaining in the heap.",
+        "Bucket sort by frequency can also achieve linear time when ranges are bounded."
+      ],
+      "timeComplexity": "O(n log k)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "A size-k min-heap tracks the current top frequencies without sorting all distinct elements."
+    },
+    "tags": ["array", "heap", "classic"]
+  },
+  {
+    "id": "merge-k-sorted-lists",
+    "title": "Merge k Sorted Lists",
+    "description": "You are given an array of k linked lists, each sorted in ascending order. Merge all the lists into one sorted linked list and return it.",
+    "difficulty": "hard",
+    "correctPattern": "heap",
+    "hints": [
+      "At each step, choose the smallest head among the k current list fronts.",
+      "A priority queue can track those k candidates efficiently."
+    ],
+    "solution": {
+      "approach": [
+        "Push the head of each non-empty list into a min-heap keyed by node value.",
+        "Pop the smallest node, attach it to the result, and push its next pointer if it exists.",
+        "Repeat until the heap is empty.",
+        "Use a dummy head to simplify list construction.",
+        "Return dummy.next."
+      ],
+      "timeComplexity": "O(N log k) where N is total nodes",
+      "spaceComplexity": "O(k)",
+      "keyInsight": "The heap always exposes the next smallest element among active list heads during k-way merge."
+    },
+    "tags": ["linked-list", "heap", "classic"]
+  },
+  {
+    "id": "redundant-connection",
+    "title": "Redundant Connection",
+    "description": "In a graph that started as a tree, one extra edge was added creating exactly one cycle. Given the edges of the undirected graph, return the edge that can be removed so the graph is again a tree. If multiple answers exist, return the last edge in the input.",
+    "difficulty": "medium",
+    "correctPattern": "union-find",
+    "hints": [
+      "A tree with one extra edge has exactly one cycle.",
+      "If an edge connects two vertices already in the same component, it closes a cycle."
+    ],
+    "solution": {
+      "approach": [
+        "Initialize union-find with n nodes.",
+        "Process edges in input order.",
+        "For edge (u, v), if find(u) == find(v), return this edge.",
+        "Otherwise union(u, v).",
+        "The first such duplicate connection is the redundant edge."
+      ],
+      "timeComplexity": "O(n * α(n)) nearly O(n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Union-find detects the first edge that joins two already-connected vertices, which must lie on the unique cycle."
+    },
+    "tags": ["graph", "classic"]
+  },
+  {
+    "id": "accounts-merge",
+    "title": "Accounts Merge",
+    "description": "Given a list of accounts where each account has a name and a list of emails, merge accounts that share at least one common email. Return the merged accounts with emails sorted and the name on the first line of each account.",
+    "difficulty": "medium",
+    "correctPattern": "union-find",
+    "hints": [
+      "Emails that appear together belong to the same person.",
+      "Connect emails from the same account, then group by component."
+    ],
+    "solution": {
+      "approach": [
+        "Use union-find on emails, linking all emails within each account.",
+        "Map each email to its component representative.",
+        "Group emails by representative.",
+        "For each group, sort emails and prepend the correct name.",
+        "Return the merged account lists."
+      ],
+      "timeComplexity": "O(n * k * α(n)) where k is emails per account",
+      "spaceComplexity": "O(n * k)",
+      "keyInsight": "Shared emails define connectivity; union-find merges transitive account relationships without explicit graph building."
+    },
+    "tags": ["graph", "hash-map"]
+  },
+  {
+    "id": "alien-dictionary",
+    "title": "Alien Dictionary",
+    "description": "In an alien language, words are sorted by a custom order of letters. Given a list of words from that language, return a string of unique letters in the correct order. If the order is invalid, return an empty string.",
+    "difficulty": "hard",
+    "correctPattern": "topological-sort",
+    "hints": [
+      "Compare adjacent words to infer precedence edges between letters.",
+      "If a longer word is a prefix of a shorter earlier word, the input is invalid."
+    ],
+    "solution": {
+      "approach": [
+        "Build a directed graph of letter precedences from adjacent word pairs.",
+        "Detect invalid cases such as prefix contradictions or cycles.",
+        "Compute indegrees for all nodes in the graph.",
+        "Kahn's algorithm: repeatedly remove nodes with indegree 0 and append to order.",
+        "If not all letters are processed, return empty string; otherwise return the order."
+      ],
+      "timeComplexity": "O(C) where C is total characters",
+      "spaceComplexity": "O(1) for at most 26 letters",
+      "keyInsight": "Lexicographic constraints form a DAG of letters; topological sort recovers any valid alphabet ordering."
+    },
+    "tags": ["graph", "string"]
+  },
+  {
+    "id": "minimum-height-trees",
+    "title": "Minimum Height Trees",
+    "description": "A tree is an undirected graph with n nodes labeled from 0 to n - 1. Given edges, return all root labels for minimum height trees. A minimum height tree is rooted so the maximum distance to any leaf is minimized.",
+    "difficulty": "medium",
+    "correctPattern": "topological-sort",
+    "acceptedPatterns": ["bfs"],
+    "hints": [
+      "Long paths push the optimal root toward the center of the tree.",
+      "Repeatedly remove leaves layer by layer until one or two nodes remain."
+    ],
+    "solution": {
+      "approach": [
+        "Build adjacency lists and indegrees for all nodes.",
+        "Enqueue all current leaves.",
+        "While more than two nodes remain, remove the leaf layer and update neighbor degrees.",
+        "Push newly formed leaves into the queue each round.",
+        "The remaining one or two nodes are the MHT roots."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Peeling leaves inward is topological removal on a tree and converges to its centroid(s)."
+    },
+    "tags": ["graph", "tree"]
+  },
+  {
+    "id": "word-search-ii",
+    "title": "Word Search II",
+    "description": "Given an m x n board of characters and a list of strings words, return all words from the list that can be formed on the board. Each word must be built from sequentially adjacent cells, and a cell may not be used more than once per word.",
+    "difficulty": "hard",
+    "correctPattern": "trie",
+    "hints": [
+      "Searching the board separately for every word is too slow.",
+      "Store the dictionary so shared prefixes are explored once."
+    ],
+    "solution": {
+      "approach": [
+        "Insert all words into a trie with word markers at terminal nodes.",
+        "DFS from each board cell, following trie children that match the current character.",
+        "When a trie node marks a complete word, add it to results.",
+        "Prune traversal when the trie path does not exist.",
+        "Optionally remove found words from the trie to reduce duplicate work."
+      ],
+      "timeComplexity": "O(m * n * 4^L + W) where W is total word length",
+      "spaceComplexity": "O(W)",
+      "keyInsight": "The trie shares prefix exploration across words, avoiding restarted board searches for every dictionary entry."
+    },
+    "tags": ["grid", "trie", "classic"]
+  },
+  {
+    "id": "add-and-search-word",
+    "title": "Add and Search Word",
+    "description": "Design a data structure that supports adding a word and searching for a word that may contain '.' wildcards matching any single letter. Implement the WordDictionary class with addWord and search methods.",
+    "difficulty": "medium",
+    "correctPattern": "trie",
+    "hints": [
+      "Store words character by character so prefixes are shared.",
+      "A wildcard branch must try all children at that level."
+    ],
+    "solution": {
+      "approach": [
+        "Represent the dictionary as a trie of characters.",
+        "addWord walks from the root, creating nodes as needed, and marks the terminal.",
+        "search walks the trie alongside the query string.",
+        "On a normal character, follow the matching child if it exists.",
+        "On '.', recursively try every child; return true if any path succeeds."
+      ],
+      "timeComplexity": "O(m) add, O(26^m) worst search with wildcards",
+      "spaceComplexity": "O(total characters stored)",
+      "keyInsight": "Trie nodes localize prefix structure, and DFS handles wildcards by branching over possible next letters."
+    },
+    "tags": ["design", "trie"]
+  },
+  {
+    "id": "combination-sum",
+    "title": "Combination Sum",
+    "description": "Given an array of distinct integers candidates and a target integer, return all unique combinations of candidates where the chosen numbers sum to target. The same number may be chosen unlimited times, and combinations must not duplicate.",
+    "difficulty": "medium",
+    "correctPattern": "backtracking",
+    "hints": [
+      "Build combinations incrementally and abandon paths whose sum exceeds the target.",
+      "Only consider candidates from the current index onward to avoid duplicate combinations."
+    ],
+    "solution": {
+      "approach": [
+        "Sort candidates optionally to enable pruning.",
+        "Define backtrack(start, path, remaining).",
+        "If remaining == 0, record path.",
+        "For i from start onward, choose candidates[i], subtract it, and recurse with i allowed again.",
+        "Undo the choice after exploring."
+      ],
+      "timeComplexity": "O(2^target) worst case",
+      "spaceComplexity": "O(target)",
+      "keyInsight": "Backtracking explores the search tree of reusable choices while pruning branches that overshoot the target."
+    },
+    "tags": ["array", "classic"]
+  },
+  {
+    "id": "permutations",
+    "title": "Permutations",
+    "description": "Given an array nums of distinct integers, return all possible permutations. You may return the answer in any order.",
+    "difficulty": "medium",
+    "correctPattern": "backtracking",
+    "hints": [
+      "Track which numbers are already placed in the current permutation.",
+      "Try each unused number at the next position."
+    ],
+    "solution": {
+      "approach": [
+        "Use backtracking with a path array and a used set or swap-based approach.",
+        "When path length equals n, append a copy to results.",
+        "For each unused number, add it to path, mark used, recurse, then undo.",
+        "Swap-based generation fixes one index at a time by swapping with later positions.",
+        "Return all collected permutations."
+      ],
+      "timeComplexity": "O(n * n!)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Each level of the recursion chooses the next unused element, systematically covering all orderings."
+    },
+    "tags": ["array", "classic"]
+  },
+  {
+    "id": "n-queens",
+    "title": "N-Queens",
+    "description": "The n-queens puzzle is to place n queens on an n x n chessboard so that no two queens attack each other. Return all distinct board configurations where queens cannot share the same row, column, or diagonal.",
+    "difficulty": "hard",
+    "correctPattern": "backtracking",
+    "hints": [
+      "Place one queen per row so you only choose a column at each step.",
+      "Track occupied columns and diagonals to reject conflicts quickly."
+    ],
+    "solution": {
+      "approach": [
+        "Place queens row by row using backtracking.",
+        "Maintain sets for used columns and both diagonal directions.",
+        "For each row, try every column not under attack.",
+        "Place a queen, update attack sets, recurse to the next row, then remove the queen.",
+        "When row == n, convert the board layout into strings and save it."
+      ],
+      "timeComplexity": "O(n!)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Constraint tracking prunes most branches early, leaving only valid partial boards to extend."
+    },
+    "tags": ["backtracking", "classic"]
+  },
+  {
+    "id": "largest-rectangle-in-histogram",
+    "title": "Largest Rectangle in Histogram",
+    "description": "Given an array of integers heights representing a histogram's bar heights with width 1, return the area of the largest rectangle in the histogram.",
+    "difficulty": "hard",
+    "correctPattern": "monotonic-stack",
+    "hints": [
+      "For each bar, you need the nearest shorter bars on its left and right.",
+      "Maintain bars in increasing height order as you scan."
+    ],
+    "solution": {
+      "approach": [
+        "Use a stack storing indices of increasing heights.",
+        "For each index i, while the stack is not empty and heights[i] < heights[stack.top], pop and compute area.",
+        "Width for popped bar extends from after the new stack top to i - 1.",
+        "Push i onto the stack.",
+        "Flush remaining stack entries at the end with right boundary n."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "A monotonic increasing stack reveals how far each bar can extend once a shorter bar bounds the rectangle."
+    },
+    "tags": ["stack", "classic"]
+  },
+  {
+    "id": "next-greater-element-ii",
+    "title": "Next Greater Element II",
+    "description": "Given a circular integer array nums, return an array answer where answer[i] is the next greater element of nums[i]. The array is circular, so the search for the next greater element continues from the end back to the beginning.",
+    "difficulty": "medium",
+    "correctPattern": "monotonic-stack",
+    "hints": [
+      "Process the array twice to simulate circularity.",
+      "Keep a decreasing stack of values waiting for a larger successor."
+    ],
+    "solution": {
+      "approach": [
+        "Initialize answer with -1 for each position.",
+        "Use a stack of indices with decreasing values.",
+        "Traverse indices from 0 to 2n - 1, mapping i % n to the actual position.",
+        "While stack not empty and nums[i % n] > nums[stack.top], set answer for popped index.",
+        "Push i % n only during the first pass."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Doubling the traversal with modulo wraps the circular search while the monotone stack finds next greater in one pass."
+    },
+    "tags": ["array", "stack"]
+  },
+  {
+    "id": "range-sum-query-immutable",
+    "title": "Range Sum Query - Immutable",
+    "description": "Given an integer array nums, handle multiple queries of the form sum(i, j) returning the sum of elements from index i to j inclusive. Design the NumArray class to preprocess nums and answer each query efficiently.",
+    "difficulty": "easy",
+    "correctPattern": "prefix-sum",
+    "hints": [
+      "Precompute cumulative totals once during construction.",
+      "Any range sum is the difference of two prefix totals."
+    ],
+    "solution": {
+      "approach": [
+        "Build prefix where prefix[0] = 0 and prefix[i + 1] = prefix[i] + nums[i].",
+        "Store prefix in the object.",
+        "For query (left, right), return prefix[right + 1] - prefix[left].",
+        "Each query is answered in O(1) after preprocessing."
+      ],
+      "timeComplexity": "O(n) preprocess, O(1) per query",
+      "spaceComplexity": "O(n)",
+      "keyInsight": "Prefix sums turn every range query into subtraction of two precomputed cumulative values."
+    },
+    "tags": ["array", "classic"]
+  },
+  {
+    "id": "subarray-sum-divisible-by-k",
+    "title": "Subarray Sum Divisible by K",
+    "description": "Given an integer array nums and an integer k, return the number of non-empty subarrays whose sum is divisible by k. Negative numbers are allowed.",
+    "difficulty": "medium",
+    "correctPattern": "prefix-sum",
+    "hints": [
+      "Two prefix sums with the same remainder mod k differ by a multiple of k.",
+      "Count how many times each remainder has appeared so far."
+    ],
+    "solution": {
+      "approach": [
+        "Track prefix sum modulo k, adjusting negatives to stay in [0, k).",
+        "Maintain a frequency map of remainders, initialized with remainder 0 count 1.",
+        "For each new remainder, add its current count to the answer.",
+        "Increment the remainder count in the map.",
+        "Return the total count after scanning nums."
+      ],
+      "timeComplexity": "O(n)",
+      "spaceComplexity": "O(k)",
+      "keyInsight": "Subarray sums modulo k depend only on matching prefix remainders, not the full prefix values."
+    },
+    "tags": ["array", "modular"]
+  }
+]
