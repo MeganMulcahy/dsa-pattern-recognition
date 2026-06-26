@@ -2,6 +2,19 @@
 
 A DSA pattern recognition trainer. Study the guides, then practice on real LeetCode problems by guessing which algorithmic pattern applies — without the topic tags giving it away.
 
+**Live app:** [dsa-pattern-recognition-delta.vercel.app](https://dsa-pattern-recognition-delta.vercel.app/)
+
+Or clone the repo and run locally:
+
+```bash
+git clone https://github.com/MeganMulcahy/dsa-pattern-recognition.git
+cd dsa-pattern-recognition
+npm install
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000).
+
 ## What it does
 
 **Learn** — Reference cheat sheets (runtime, keywords, basics) plus 16 pattern guides with signals, walkthroughs, code examples, and links.
@@ -59,16 +72,9 @@ GET /api/questions/random?exclude=slug1,slug2&pattern=two-pointers
 
 Returns a normalized `Question` object: title, description, difficulty, hints, solution outline, and a link to the problem on LeetCode.
 
-## Local development
+## Optional dev script
 
-```bash
-npm install
-npm run dev
-```
-
-Open [http://localhost:3000](http://localhost:3000).
-
-Optional dev script for generating static question JSON via local Ollama (not used by the app at runtime):
+Generate static question JSON via local Ollama (not used by the app at runtime):
 
 ```bash
 npm run generate-questions
